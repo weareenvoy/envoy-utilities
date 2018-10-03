@@ -2,7 +2,7 @@
 # A simple script that can be pulled down on a new or reimaged machine to get 
 # it bootstrapped quickly
 
-MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/alex-envoy/envoy-utilities/master/machine-setup/mountenvoy.sh"
+MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/master/machine-setup/mountenvoy.sh"
 LOCAL_SCRIPT_NAME=`mktemp -t mountenvoy` || exit 1
 
 # Some config vars
