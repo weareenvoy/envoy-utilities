@@ -16,6 +16,7 @@ then
 		df | egrep -i "$MOUNTPT"
 		echo "Exiting..."
 		exit 1
+	fi
 fi
 
 sudo mkdir -m 700 $MOUNTPT
