@@ -18,7 +18,7 @@ then
 		exit 1
 fi
 
-sudo mkdir -p 700 $MOUNTPT
+sudo mkdir -m 700 $MOUNTPT
 sudo chown envoy:staff $MOUNTPT
 mount_afp -i $SERVER/$SHARE $MOUNTPT
 
