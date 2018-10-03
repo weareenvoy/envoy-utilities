@@ -32,6 +32,9 @@ function sleepdots () {
 	echo ""
 }
 
+# Prompt for readiness 
+read -n 1 -p "Press a key to continue..." OK
+
 # Start in home dir
 cd
 
