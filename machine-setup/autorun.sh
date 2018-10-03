@@ -3,9 +3,11 @@
 # it bootstrapped quickly
 
 MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/alex-envoy/envoy-utilities/master/machine-setup/mountenvoy.sh"
-LOCAL_SCRIPT_NAME="mountenvoy.sh"
+LOCAL_SCRIPT_NAME=`mktemp -t mountenvoy` || exit 1
 
+# Some config vars
 HOSTNAME_SCRIPT="/Volumes/IT/Software/Mac/setup/inithost.sh"
+
 CYLANCE_SCRIPT_DIR="/Volumes/IT/Software/Mac/Cylance"
 CYLANCE_REMOVE_OTHER_AV="remove_av.sh"
 CYLANCE_INSTALL_SCRIPT="install.sh"
@@ -65,5 +67,8 @@ $CYLANCE_SCRIPT_DIR/$CYLANCE_INSTALL_SCRIPT
 echo
 # Open CCleaner dmg for copying
 open $CCLEANER_DMG
+
+# Clean up
+rm $LOCAL_SCRIPT_NAME
 
 echo "Done."
