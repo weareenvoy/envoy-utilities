@@ -8,7 +8,7 @@ MOUNTPT="/Volumes/$SHARE"
 # first we need to set up the mount point
 if [ -d "$MOUNTPT" ]
 then
-	echo "Mount point $MOUNTPT already exists, checking for mounted file system there..."
+	echo "Mount point $MOUNTPT already exists, checking for mounted file system..."
 	MOUNTED=`df | egrep -c "$MOUNTPT"`
 	if [[ "$MOUNTED" != 0 ]]
 	then
@@ -17,10 +17,12 @@ then
 		echo "Exiting..."
 		exit 1
 	fi
+	chmod 700 $MOUNTPT
+else
+	sudo mkdir -m 700 $MOUNTPT
+	sudo chown envoy:staff $MOUNTPT
 fi
 
-sudo mkdir -m 700 $MOUNTPT
-sudo chown envoy:staff $MOUNTPT
 mount_afp -i $SERVER/$SHARE $MOUNTPT
 
 df | egrep "$MOUNTPT"
