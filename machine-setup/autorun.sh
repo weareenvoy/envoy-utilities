@@ -56,7 +56,7 @@ echo "Mounting IT share..."
 # Pull down & run the mounting script
 curl -s $MOUNT_SCRIPT_SRC > $LOCAL_SCRIPT_NAME
 chmod +x $LOCAL_SCRIPT_NAME
-./$LOCAL_SCRIPT_NAME IT
+$LOCAL_SCRIPT_NAME IT
 
 echo
 # Set up the machine's hostname
