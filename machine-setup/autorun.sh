@@ -32,24 +32,25 @@ function sleepdots () {
 	echo ""
 }
 
-# Prompt for readiness 
-read -n 1 -p "Press a key to continue..." OK
-
-# Start in home dir
-cd
-
 # Let the user know what's happening
-echo "*** Welcome to the ENVOY workstation autoconfig! ***"
+echo "**************** Welcome to the ENVOY workstation autoconfig! ****************"
 echo
 echo "The first password prompt you see will be a sudo prompt, use this machine's"
 echo "login password."
 echo
-echo "The username/password prompts which follows expect YOUR Okta user credentials."
+echo "The username/password prompts which follow expect YOUR Okta user credentials."
 echo "Username format is the user portion of your email - everything before the @"
 echo
 echo -n "Thanks and enjoy the ride"
+echo "******************************************************************************"
+
+# Prompt for readiness 
+read -n 1 -p "Press a key to continue..." OK
 
 sleepdots 5
+
+# Start in home dir
+cd
 
 echo
 echo "Mounting IT share..."
@@ -72,6 +73,7 @@ echo
 open $CCLEANER_DMG
 
 # Clean up
+echo "Removing temp files..."
 rm $LOCAL_SCRIPT_NAME
 
 echo "Done."
