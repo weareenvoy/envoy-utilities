@@ -41,12 +41,12 @@ echo
 echo "The username/password prompts which follow expect YOUR Okta user credentials."
 echo "Username format is the user portion of your email - everything before the @"
 echo
-echo -n "Thanks and enjoy the ride"
 echo "******************************************************************************"
 
 # Prompt for readiness 
 read -n 1 -p "Press a key to continue..." OK
 
+echo -n "Thanks and enjoy the ride"
 sleepdots 5
 
 # Start in home dir
