@@ -33,7 +33,8 @@ function sleepdots () {
 }
 
 # Let the user know what's happening
-echo "**************** Welcome to the ENVOY workstation autoconfig! ****************"
+echo
+echo "**************** Welcome to the ENVOY workstation autoconfig! *****************"
 echo
 echo "The first password prompt you see will be a sudo prompt, use this machine's"
 echo "login password."
@@ -41,7 +42,8 @@ echo
 echo "The username/password prompts which follow expect YOUR Okta user credentials."
 echo "Username format is the user portion of your email - everything before the @"
 echo
-echo "******************************************************************************"
+echo "*******************************************************************************"
+echo
 
 # Prompt for readiness 
 read -n 1 -p "Press a key to continue..." OK
