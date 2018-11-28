@@ -20,7 +20,7 @@ then
 	chmod 700 $MOUNTPT
 else
 	sudo mkdir -m 700 $MOUNTPT
-	sudo chown envoy:staff $MOUNTPT
+	sudo chown $USER:staff $MOUNTPT
 fi
 
 mount_afp -i $SERVER/$SHARE $MOUNTPT
