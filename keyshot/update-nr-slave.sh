@@ -16,7 +16,7 @@ cd ~/Downloads
 
 # do stuff with it
 case "$EXT" in
-	"pkg" )
+	pkg )
 		# get that thing and save it
 		echo "Pulling file..."
 		FILENAME=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | awk -F "/" '{print $NF}'`
