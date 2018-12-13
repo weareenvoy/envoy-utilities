@@ -8,8 +8,9 @@ NR_DOWNLOAD_URL="https://www.keyshot.com/?ddownload=339273"
 
 
 # pull pkg file - make sure it's a .pkg first
-IS_PKG=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | egrep -i '\.pkg'`
-EXT=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | awk -F "." '{print $NF}'`
+IS_PKG=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | egrep -ci '\.pkg'`
+FILENAME=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | awk -F "/" '{print $NF}' | tr -d "[:space:]"`
+EXT=`echo -n $FILENAME | awk -F "." '{print $NF}'`
 
 # operate in Downloads
 cd ~/Downloads
@@ -19,7 +20,6 @@ case "$EXT" in
 	pkg )
 		# get that thing and save it
 		echo "Pulling file..."
-		FILENAME=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | awk -F "/" '{print $NF}'`
 		curl -sL "${NR_DOWNLOAD_URL}" > $FILENAME
 		# install it
 		echo "Installing from $FILENAME"
