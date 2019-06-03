@@ -19,7 +19,7 @@ cd ~/Downloads
 case "$EXT" in
 	pkg )
 		# get that thing and save it
-		echo "Pulling file..."
+		echo "Pulling file ${FILENAME}..."
 		curl -sL "${NR_DOWNLOAD_URL}" > $FILENAME
 		# install it
 		echo "Installing from $FILENAME"
