@@ -22,7 +22,7 @@ CYLANCE_SCRIPT_DIR="/Volumes/IT/Software/Mac/Cylance"
 CYLANCE_REMOVE_OTHER_AV="remove_av.sh"
 CYLANCE_INSTALL_SCRIPT="install.sh"
 
-CCLEANER_DMG="/Volumes/IT/Software/Mac/CCleaner_MacSetup115.dmg"
+CCLEANER_DMG="/Volumes/IT/Software/Mac/CCleaner_MacSetup.dmg"
 
 function sleepdots () {
 	# takes an int, sleeps for that many seconds and prints a dot as progress
