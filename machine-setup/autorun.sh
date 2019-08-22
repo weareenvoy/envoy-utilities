@@ -16,13 +16,19 @@ echo ${MOUNT_SCRIPT_SRC}
 LOCAL_SCRIPT_NAME=`mktemp -t mountenvoy` || exit 1
 
 # Some config vars
-HOSTNAME_SCRIPT="/Volumes/IT/Software/Mac/setup/inithost.sh"
+MAC_APP_DIR="/Volumes/IT/Software/Mac"
+HOSTNAME_SCRIPT="${MAC_APP_DIR}/setup/inithost.sh"
 
-CYLANCE_SCRIPT_DIR="/Volumes/IT/Software/Mac/Cylance"
+CYLANCE_SCRIPT_DIR="${MAC_APP_DIR}/Cylance"
 CYLANCE_REMOVE_OTHER_AV="remove_av.sh"
 CYLANCE_INSTALL_SCRIPT="install.sh"
 
-CCLEANER_DMG="/Volumes/IT/Software/Mac/CCleaner_MacSetup115.dmg"
+# These are symlinked to the current dmg
+CCLEANER_DMG="${MAC_APP_DIR}/CCleaner.dmg"
+ALBERT_DMG="${MAC_APP_DIR}/Albert.dmg"
+CHROME_DMG="${MAC_APP_DIR}/Chrome.dmg"
+SLACK_DMG="${MAC_APP_DIR}/Slack.dmg"
+SONOS_DMG="${MAC_APP_DIR}/Sonos.dmg"
 
 function sleepdots () {
 	# takes an int, sleeps for that many seconds and prints a dot as progress
@@ -42,7 +48,27 @@ function sleepdots () {
 	echo ""
 }
 
-# Let the user know what's happening
+function installdmg () {
+	# takes a path to a dmg file and assumes we can access it
+	DMGPATH="$1"
+	BASENAME=`basename ${DMGPATH}`
+	APPNAME=`basename ${DMGPATH} | tr '.' ' ' | awk '{print $1}'`
+	read -n 1 -p "Mount ${BASENAME}? [y/n] " INST
+	if [ "${INST}" == "y" ]
+	then
+		# Open dmg for copying
+		open $DMGPATH
+		#sleep 1
+		read -n 1 -p "Press a key when done with ${BASENAME}..." OK
+		# All done here, unmount the dmg
+		# get the mount point we created by opening the dmg
+		#find /Volumes -maxdepth 1 -type d -iname "*${APPNAME}*" -exec umount -v {} \;
+		DEV_ID=`df -l | egrep -i "${APPNAME}" | awk '{print $1}'`
+		hdiutil detach ${DEV_ID}
+	fi
+}
+
+# Let the invoker know what's happening
 echo
 echo "**************** Welcome to the ENVOY workstation autoconfig! *****************"
 echo
@@ -81,8 +107,13 @@ $CYLANCE_SCRIPT_DIR/$CYLANCE_REMOVE_OTHER_AV
 $CYLANCE_SCRIPT_DIR/$CYLANCE_INSTALL_SCRIPT
 
 echo
-# Open CCleaner dmg for copying
-open $CCLEANER_DMG
+echo "We'll install some applications via DMG now..."
+
+installdmg ${CCLEANER_DMG}
+installdmg ${ALBERT_DMG}
+installdmg ${CHROME_DMG}
+installdmg ${SLACK_DMG}
+installdmg ${SONOS_DMG}
 
 # Clean up
 echo "Removing temp files..."
