@@ -29,6 +29,7 @@ ALFRED_DMG="${MAC_APP_DIR}/Alfred.dmg"
 CHROME_DMG="${MAC_APP_DIR}/Chrome.dmg"
 SLACK_DMG="${MAC_APP_DIR}/Slack.dmg"
 SONOS_DMG="${MAC_APP_DIR}/Sonos.dmg"
+ADOBECC_DMG="${MAC_APP_DIR}/Adobe/CreativeCloud.dmg"
 
 function sleepdots () {
 	# takes an int, sleeps for that many seconds and prints a dot as progress
@@ -51,6 +52,11 @@ function sleepdots () {
 function installdmg () {
 	# takes a path to a dmg file and assumes we can access it
 	DMGPATH="$1"
+	if [ ! -e "${DMGPATH}" ]
+	then
+		echo "Can't access ${DMGPATH} or it doesn't exist, skipping..."
+		return
+	fi
 	BASENAME=`basename ${DMGPATH}`
 	APPNAME=`basename ${DMGPATH} | tr '.' ' ' | awk '{print $1}'`
 	read -n 1 -p "Mount ${BASENAME}? [y/n] " INST
@@ -66,6 +72,20 @@ function installdmg () {
 		# get the mount point we created by opening the dmg
 		#find /Volumes -maxdepth 1 -type d -iname "*${APPNAME}*" -exec umount -v {} \;
 		DEV_ID=`df -l | egrep -i "${APPNAME}" | awk '{print $1}'`
+		if [ -z "${DEV_ID}" ]
+		then
+			GUESS_DEV_ID=`df -l | tail -n1 | awk '{print $1}'`
+			GUESS_MNT_NAME=`df -l | tail -n1 | egrep -o '/Volumes.*$'`
+			echo "Didn't find a mounted dmg for ${APPNAME}..."
+			read -n 1 -p "Does ${GUESS_MNT_NAME} look ok? [y/n] " OK
+			echo
+			if [ "${OK}" == "y" ]
+			then
+				DEV_ID="${GUESS_DEV_ID}"
+			else
+				return
+			fi
+		fi
 		hdiutil detach ${DEV_ID}
 	fi
 }
@@ -116,6 +136,7 @@ installdmg ${ALBERT_DMG}
 installdmg ${CHROME_DMG}
 installdmg ${SLACK_DMG}
 installdmg ${SONOS_DMG}
+installdmg ${ADOBECC_DMG}
 
 # Clean up
 echo "Removing temp files..."
