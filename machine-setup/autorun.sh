@@ -25,7 +25,7 @@ CYLANCE_INSTALL_SCRIPT="install.sh"
 
 # These are symlinked to the current dmg
 CCLEANER_DMG="${MAC_APP_DIR}/CCleaner.dmg"
-ALBERT_DMG="${MAC_APP_DIR}/Albert.dmg"
+ALFRED_DMG="${MAC_APP_DIR}/Alfred.dmg"
 CHROME_DMG="${MAC_APP_DIR}/Chrome.dmg"
 SLACK_DMG="${MAC_APP_DIR}/Slack.dmg"
 SONOS_DMG="${MAC_APP_DIR}/Sonos.dmg"
@@ -54,12 +54,14 @@ function installdmg () {
 	BASENAME=`basename ${DMGPATH}`
 	APPNAME=`basename ${DMGPATH} | tr '.' ' ' | awk '{print $1}'`
 	read -n 1 -p "Mount ${BASENAME}? [y/n] " INST
+	echo
 	if [ "${INST}" == "y" ]
 	then
 		# Open dmg for copying
 		open $DMGPATH
 		#sleep 1
 		read -n 1 -p "Press a key when done with ${BASENAME}..." OK
+		echo
 		# All done here, unmount the dmg
 		# get the mount point we created by opening the dmg
 		#find /Volumes -maxdepth 1 -type d -iname "*${APPNAME}*" -exec umount -v {} \;
