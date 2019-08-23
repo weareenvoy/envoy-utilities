@@ -5,8 +5,8 @@
 # TODO - intelligent switching of mount script to run based on macOS version
 MACOS_VERS=`sw_vers -productVersion`
 case "${MACOS_VERS}" in
-	"10.13*" ) MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/macos-high-sierra/machine-setup/mountenvoy.sh" ;;
-	"10.14*" ) MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/macos-mojave/machine-setup/mountenvoy.sh" ;;
+	10.13* ) MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/macos-high-sierra/machine-setup/mountenvoy.sh" ;;
+	10.14* ) MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/macos-mojave/machine-setup/mountenvoy.sh" ;;
 	* ) MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/master/machine-setup/mountenvoy.sh" ;;
 esac
 
