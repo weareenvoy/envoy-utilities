@@ -132,7 +132,7 @@ echo
 echo "We'll install some applications via DMG now..."
 
 installdmg ${CCLEANER_DMG}
-installdmg ${ALBERT_DMG}
+installdmg ${ALFRED_DMG}
 installdmg ${CHROME_DMG}
 installdmg ${SLACK_DMG}
 installdmg ${SONOS_DMG}
