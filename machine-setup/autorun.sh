@@ -38,11 +38,14 @@ INSTALL_DMGS=( "${CCLEANER_DMG}" "${ALFRED_DMG}" "${CHROME_DMG}" "${SLACK_DMG}" 
 
 # These are symlinked to real pkg files - unclear whether it is desirable or 
 # sane to install large applications (ie Office365) via pkg from the server 
-# directly. Installs over wifi could be subject to inconsistent 
+# directly. Installs over wifi could be subject to inconsistent behavior
 OFFICE365_PKG="${MAC_APP_DIR}/Office365/Office365.pkg"
+KEYSHOT_PKG="${MAC_APP_DIR}/Keyshot/Keyshot.pkg"
+KEYSHOT_NR_PKG="${MAC_APP_DIR}/Keyshot/Keyshot_NR.pkg"
+ZOOM_PKG="${MAC_APP_DIR}/Zoom/Zoom.pkg"
 
 # Again, we control the order of the pkg installs because reasons
-INSTALL_PKGS=( "${OFFICE365_PKG}" )
+INSTALL_PKGS=( "${OFFICE365_PKG}" "${KEYSHOT_PKG}" "${KEYSHOT_NR_PKG}" "${ZOOM_PKG}" )
 
 # Utility functions
 function sleepdots () {
@@ -82,7 +85,10 @@ function installdmg () {
 		# Open dmg for copying
 		open $DMGPATH
 		#sleep 1
-		read -n 1 -p "Press a key after done using ${DMG_FILENAME}..." OK
+		# copy the .app (if found) to /Applications
+		#MOUNTPT=`df -l | egrep -i "${DMG_APPNAME}" | awk '{print $NF}'`
+		#find ${MOUNTPT} -maxdepth 1 -type d -name '*.app' -exec cp -va {} /Applications \;
+		read -n 1 -p "Press a key after installation of ${DMG_FILENAME} is complete..." OK
 		echo
 		# All done here, unmount the dmg
 		# get the mount point we created by opening the dmg
@@ -156,12 +162,25 @@ done
 
 echo
 echo "And we'll install a couple applications via pkg..."
+echo
 
 # loop through the active pkg installers
 for apkg in "${INSTALL_PKGS[@]}"
 do
 	PKG_FILENAME=`basename ${apkg}`
 	PKG_APPNAME=`basename ${apkg} | tr '.' ' ' | awk '{print $1}'`
+	read -n 1 -p "Install ${PKG_APPNAME}? [y/n] " PKGINST
+	echo
+	if [ "${PKGINST}" != "y" ]
+	then
+		read -n 1 -p "Copy ${PKG_FILENAME} to Downloads? [y/n] " PKGCOPY
+		echo
+		if [ "${PKGCOPY}" == "y" ]
+			# just copy the pkg - some won't install over the network
+			cp -v "${apkg}" ~/Downloads
+		fi
+		continue
+	fi
 	echo "Installing ${PKG_FILENAME}..."
 	#sudo installer -pkg ${apkg} -target / -verboseR
 	# we'll do the pkg installs interactively since that's how we're already 
