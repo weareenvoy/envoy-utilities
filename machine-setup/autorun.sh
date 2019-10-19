@@ -135,6 +135,9 @@ sleepdots 5
 # Start in home dir
 cd
 
+# get sudo at attention so all subsequent calls are auth'd
+sudo -v
+
 echo
 echo "Mounting IT share..."
 # Pull down & run the mounting script
