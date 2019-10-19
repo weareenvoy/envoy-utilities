@@ -5,10 +5,12 @@
 # TODO - intelligent switching of mount script to run based on macOS version
 MACOS_VERS=`sw_vers -productVersion`
 case "${MACOS_VERS}" in
-	10.13* ) MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/macos-high-sierra/machine-setup/mountenvoy.sh" ;;
-	10.14* ) MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/macos-mojave/machine-setup/mountenvoy.sh" ;;
-	* ) MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/master/machine-setup/mountenvoy.sh" ;;
+	10.13* ) MOUNT_SCRIPT_MACOS_REL="macos-high-sierra" ;;
+	10.14* ) MOUNT_SCRIPT_MACOS_REL="macos-mojave" ;;
+	* ) MOUNT_SCRIPT_MACOS_REL="master" ;;
 esac
+
+MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/${MOUNT_SCRIPT_MACOS_REL}/machine-setup/mountenvoy.sh"
 
 echo "Using mount script:"
 echo ${MOUNT_SCRIPT_SRC}
@@ -46,6 +48,14 @@ ZOOM_PKG="${MAC_APP_DIR}/Zoom/Zoom.pkg"
 
 # Again, we control the order of the pkg installs because reasons
 INSTALL_PKGS=( "${OFFICE365_PKG}" "${KEYSHOT_PKG}" "${KEYSHOT_NR_PKG}" "${ZOOM_PKG}" )
+
+# These are symlinked to zip files - just prompt to copy them to Downloads
+# since their contents and unzip behavior may not be known at the time of run
+SKETCH_ZIP="${MAC_APP_DIR}/Sketch/Sketch.zip"
+PREPROS_ZIP="${MAC_APP_DIR}/Prepros.zip"
+
+# Group the zip files
+INSTALL_ZIPS=( "${SKETCH_ZIP}" "${PREPROS_ZIP}" )
 
 # Utility functions
 function sleepdots () {
@@ -99,7 +109,7 @@ function installdmg () {
 			GUESS_DEV_ID=`df -l | tail -n1 | awk '{print $1}'`
 			GUESS_MNT_NAME=`df -l | tail -n1 | egrep -o '/Volumes.*$'`
 			echo "Didn't find a mounted dmg for ${DMG_APPNAME}..."
-			read -n 1 -p "Does '${GUESS_MNT_NAME}' look right? [y/n] " OK
+			read -n 1 -p "Does '${GUESS_MNT_NAME}' look right? [y/N] " OK
 			echo
 			if [ "${OK}" == "y" ]
 			then
@@ -156,6 +166,7 @@ $CYLANCE_SCRIPT_DIR/$CYLANCE_INSTALL_SCRIPT
 
 echo
 echo "We'll install some applications via dmg now..."
+echo
 
 # loop through the active dmg installers
 for admg in "${INSTALL_DMGS[@]}"
@@ -172,11 +183,11 @@ for apkg in "${INSTALL_PKGS[@]}"
 do
 	PKG_FILENAME=`basename ${apkg}`
 	PKG_APPNAME=`basename ${apkg} | tr '.' ' ' | awk '{print $1}'`
-	read -n 1 -p "Install ${PKG_APPNAME}? [y/n] " PKGINST
+	read -n 1 -p "Install ${PKG_APPNAME}? [y/N] " PKGINST
 	echo
 	if [ "${PKGINST}" != "y" ]
 	then
-		read -n 1 -p "Copy ${PKG_FILENAME} to Downloads? [y/n] " PKGCOPY
+		read -n 1 -p "Copy ${PKG_FILENAME} to Downloads? [y/N] " PKGCOPY
 		echo
 		if [ "${PKGCOPY}" == "y" ]
 		then
@@ -193,6 +204,26 @@ do
 	#sleep 1
 	read -n 1 -p "Press a key when done installing ${PKG_FILENAME}..." OK
 	echo
+done
+
+echo
+echo "Last we'll copy a few application zip files..."
+echo
+
+# loop through the active pkg installers
+# loop through zip files
+for azip in "${INSTALL_ZIPS[@]}"
+do
+	ZIP_FILENAME=`basename ${azip}`
+	#ZIP_APPNAME=`basename ${azip} | tr '.' ' ' | awk '{print $1}'`
+	read -n 1 -p "Copy ${ZIP_FILENAME} to Downloads? [y/N] " ZIPCOPY
+	echo
+	if [ "${ZIPCOPY}" != "y" ]
+	then
+		continue
+	fi
+	# just copy the zip - contents too unpredictable to install here
+	cp -v "${azip}" ~/Downloads
 done
 
 # Clean up
