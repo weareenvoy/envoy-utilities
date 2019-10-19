@@ -176,6 +176,7 @@ do
 		read -n 1 -p "Copy ${PKG_FILENAME} to Downloads? [y/n] " PKGCOPY
 		echo
 		if [ "${PKGCOPY}" == "y" ]
+		then
 			# just copy the pkg - some won't install over the network
 			cp -v "${apkg}" ~/Downloads
 		fi
