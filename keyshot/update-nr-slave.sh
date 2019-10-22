@@ -23,7 +23,8 @@ cd ~/Downloads
 case "$EXT" in
 	pkg )
 		# preemptively prompt for sudo so we can get that out of the way
-		echo "Please provide the login password for ${USER} to sudo..."
+		echo "Please provide the login password to sudo..."
+		echo "Username: ${USER}"
 		sudo -v
 
 		# get that thing and save it
