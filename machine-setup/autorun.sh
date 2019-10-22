@@ -88,7 +88,7 @@ function installdmg () {
 	# the DMGPATH is at least a file
 	DMG_FILENAME=`basename ${DMGPATH}`
 	DMG_APPNAME=`basename ${DMGPATH} | tr '.' ' ' | awk '{print $1}'`
-	read -n 1 -p "Mount ${DMG_FILENAME}? [y/n] " INST
+	read -n 1 -p "Mount ${DMG_FILENAME}? [y/N] " INST
 	echo
 	if [ "${INST}" == "y" ]
 	then

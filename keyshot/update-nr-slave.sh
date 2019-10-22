@@ -6,6 +6,10 @@
 
 NR_DOWNLOAD_URL="https://www.keyshot.com/?ddownload=339273"
 
+if [ -z "${USER}" ]
+then
+	USER=`whoami`
+fi
 
 # pull pkg file - make sure it's a .pkg first
 IS_PKG=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | egrep -ci '\.pkg'`
@@ -18,9 +22,14 @@ cd ~/Downloads
 # do stuff with it
 case "$EXT" in
 	pkg )
+		# preemptively prompt for sudo so we can get that out of the way
+		echo "Please provide the login password for ${USER} to sudo..."
+		sudo -v
+
 		# get that thing and save it
 		echo "Pulling file ${FILENAME}..."
 		curl -sL "${NR_DOWNLOAD_URL}" > $FILENAME
+
 		# install it
 		echo "Installing from $FILENAME"
 		sudo installer -pkg $FILENAME -target /
