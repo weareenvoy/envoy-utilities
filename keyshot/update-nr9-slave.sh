@@ -32,6 +32,9 @@ case "$EXT" in
 		echo "Pulling file ${FILENAME}..."
 		curl -sL "${NR_DOWNLOAD_URL}" > $FILENAME
 
+		# let the bits settle
+		sleep 1
+
 		# install it
 		echo "Installing from $FILENAME"
 		sudo installer -pkg $FILENAME -target /
@@ -42,12 +45,5 @@ case "$EXT" in
 		exit 1
 		;;
 esac
-
-# ask admin if they want to open the thing we just downloaded
-read -n1 -p "Install from ${FILENAME}? [y|N] " yesno
-if [[ "${yesno}" == "y" || "${yesno}" == "Y" ]]
-then
-	open ${FILENAME}
-fi
 
 echo "Done."
