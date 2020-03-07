@@ -3,6 +3,8 @@
 # Automagically pull the latest version of the Keyshot network rendering .pkg
 # down to the local machine and install it
 #
+# The download link no longer performs a redirect with the file name in the 
+# location header, so we'll have to make some assumptions
 
 NR_DOWNLOAD_URL="https://www.keyshot.com/download/345998/"
 
@@ -11,10 +13,9 @@ then
 	USER=`whoami`
 fi
 
-# pull pkg file - make sure it's a .pkg first
-IS_PKG=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | egrep -ci '\.pkg'`
-FILENAME=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | awk -F "/" '{print $NF}' | tr -d "[:space:]"`
-EXT=`echo -n $FILENAME | awk -F "." '{print $NF}'`
+# pull pkg file - assume it's a pkg since there's no indication now
+FILENAME="keyshot_network_rendering_mac64_9.`date +%Y%m%d%H%M`.pkg"
+EXT="pkg"
 
 # operate in Downloads
 cd ~/Downloads
