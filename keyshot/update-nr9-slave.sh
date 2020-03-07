@@ -43,4 +43,11 @@ case "$EXT" in
 		;;
 esac
 
+# ask admin if they want to open the thing we just downloaded
+read -n1 -p "Install from ${FILENAME}? [y|N] " yesno
+if [[ "${yesno}" == "y" || "${yesno}" == "Y" ]]
+then
+	open ${FILENAME}
+fi
+
 echo "Done."
