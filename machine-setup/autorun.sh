@@ -7,6 +7,7 @@ MACOS_VERS=`sw_vers -productVersion`
 case "${MACOS_VERS}" in
 	10.13* ) MOUNT_SCRIPT_MACOS_REL="macos-high-sierra" ;;
 	10.14* ) MOUNT_SCRIPT_MACOS_REL="macos-mojave" ;;
+	10.15* ) MOUNT_SCRIPT_MACOS_REL="macos-catalina" ;;
 	* ) MOUNT_SCRIPT_MACOS_REL="master" ;;
 esac
 
