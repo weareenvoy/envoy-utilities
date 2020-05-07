@@ -39,7 +39,7 @@ ADOBECC_DMG="${MAC_APP_DIR}/Adobe/CreativeCloud.dmg"
 # Control the order of the mounts - notably AdobeCC should be last as they have 
 # a sneaky pkg in the dmg which just installs the desktop app installer.. D:
 # TODO - pull AdobeCC pkg out of dmg and install in the pkg section
-INSTALL_DMGS=( "${CCLEANER_DMG}" "${ALFRED_DMG}" "${CHROME_DMG}" "${SLACK_DMG}" "${SONOS_DMG}" "${ADOBECC_DMG}" )
+INSTALL_DMGS=( "${CCLEANER_DMG}" "${CHROME_DMG}" "${SONOS_DMG}" "${ADOBECC_DMG}" )
 
 # These are symlinked to real pkg files - unclear whether it is desirable or 
 # sane to install large applications (ie Office365) via pkg from the server 
