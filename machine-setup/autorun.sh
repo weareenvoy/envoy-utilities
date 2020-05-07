@@ -28,9 +28,11 @@ CYLANCE_INSTALL_SCRIPT="install.sh"
 
 # These are symlinked to the current dmg
 CCLEANER_DMG="${MAC_APP_DIR}/CCleaner.dmg"
-ALFRED_DMG="${MAC_APP_DIR}/Alfred.dmg"
+# we get this through managed App Store via VPP now 
+#ALFRED_DMG="${MAC_APP_DIR}/Alfred.dmg"
 CHROME_DMG="${MAC_APP_DIR}/Chrome.dmg"
-SLACK_DMG="${MAC_APP_DIR}/Slack.dmg"
+# we get this through managed App Store via VPP now 
+#SLACK_DMG="${MAC_APP_DIR}/Slack.dmg"
 SONOS_DMG="${MAC_APP_DIR}/Sonos.dmg"
 ADOBECC_DMG="${MAC_APP_DIR}/Adobe/CreativeCloud.dmg"
 
