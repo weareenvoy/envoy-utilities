@@ -48,6 +48,7 @@ OFFICE365_PKG="${MAC_APP_DIR}/Office365/Office365.pkg"
 KEYSHOT_PKG="${MAC_APP_DIR}/Keyshot/Keyshot.pkg"
 KEYSHOT_NR_PKG="${MAC_APP_DIR}/Keyshot/Keyshot_NR.pkg"
 ZOOM_PKG="${MAC_APP_DIR}/Zoom/Zoom.pkg"
+ZOOM_PKG="${MAC_APP_DIR}/Zoom/ZoomRooms.pkg"
 
 # Again, we control the order of the pkg installs because reasons
 INSTALL_PKGS=( "${OFFICE365_PKG}" "${KEYSHOT_PKG}" "${KEYSHOT_NR_PKG}" "${ZOOM_PKG}" )
