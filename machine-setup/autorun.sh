@@ -28,16 +28,18 @@ CYLANCE_INSTALL_SCRIPT="install.sh"
 
 # These are symlinked to the current dmg
 CCLEANER_DMG="${MAC_APP_DIR}/CCleaner.dmg"
-ALFRED_DMG="${MAC_APP_DIR}/Alfred.dmg"
+# we get this through managed App Store via VPP now 
+#ALFRED_DMG="${MAC_APP_DIR}/Alfred.dmg"
 CHROME_DMG="${MAC_APP_DIR}/Chrome.dmg"
-SLACK_DMG="${MAC_APP_DIR}/Slack.dmg"
+# we get this through managed App Store via VPP now 
+#SLACK_DMG="${MAC_APP_DIR}/Slack.dmg"
 SONOS_DMG="${MAC_APP_DIR}/Sonos.dmg"
 ADOBECC_DMG="${MAC_APP_DIR}/Adobe/CreativeCloud.dmg"
 
 # Control the order of the mounts - notably AdobeCC should be last as they have 
 # a sneaky pkg in the dmg which just installs the desktop app installer.. D:
 # TODO - pull AdobeCC pkg out of dmg and install in the pkg section
-INSTALL_DMGS=( "${CCLEANER_DMG}" "${ALFRED_DMG}" "${CHROME_DMG}" "${SLACK_DMG}" "${SONOS_DMG}" "${ADOBECC_DMG}" )
+INSTALL_DMGS=( "${CCLEANER_DMG}" "${CHROME_DMG}" "${SONOS_DMG}" "${ADOBECC_DMG}" )
 
 # These are symlinked to real pkg files - unclear whether it is desirable or 
 # sane to install large applications (ie Office365) via pkg from the server 
@@ -46,6 +48,7 @@ OFFICE365_PKG="${MAC_APP_DIR}/Office365/Office365.pkg"
 KEYSHOT_PKG="${MAC_APP_DIR}/Keyshot/Keyshot.pkg"
 KEYSHOT_NR_PKG="${MAC_APP_DIR}/Keyshot/Keyshot_NR.pkg"
 ZOOM_PKG="${MAC_APP_DIR}/Zoom/Zoom.pkg"
+ZOOM_PKG="${MAC_APP_DIR}/Zoom/ZoomRooms.pkg"
 
 # Again, we control the order of the pkg installs because reasons
 INSTALL_PKGS=( "${OFFICE365_PKG}" "${KEYSHOT_PKG}" "${KEYSHOT_NR_PKG}" "${ZOOM_PKG}" )
