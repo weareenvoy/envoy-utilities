@@ -1,0 +1,16 @@
+# a boilerplate file for rsync excludes when backing up machines
+# intended to be used when copying from ~/${HOME}
+.DS_Store
+.npm
+.node
+iCloud*
+Applications*
+Creative*
+Dropbox
+Library
+Pictures
+Movies
+# Some that you may want to uncomment while dry-run testing to see what you get
+#Desktop
+#Documents
+#Downloads
