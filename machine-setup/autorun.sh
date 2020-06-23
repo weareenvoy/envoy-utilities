@@ -28,18 +28,16 @@ CYLANCE_INSTALL_SCRIPT="install.sh"
 
 # These are symlinked to the current dmg
 CCLEANER_DMG="${MAC_APP_DIR}/CCleaner.dmg"
-# we get this through managed App Store via VPP now 
-#ALFRED_DMG="${MAC_APP_DIR}/Alfred.dmg"
+ALFRED_DMG="${MAC_APP_DIR}/Alfred.dmg"
 CHROME_DMG="${MAC_APP_DIR}/Chrome.dmg"
-# we get this through managed App Store via VPP now 
-#SLACK_DMG="${MAC_APP_DIR}/Slack.dmg"
+SLACK_DMG="${MAC_APP_DIR}/Slack.dmg"
 SONOS_DMG="${MAC_APP_DIR}/Sonos.dmg"
 ADOBECC_DMG="${MAC_APP_DIR}/Adobe/CreativeCloud.dmg"
 
 # Control the order of the mounts - notably AdobeCC should be last as they have 
 # a sneaky pkg in the dmg which just installs the desktop app installer.. D:
 # TODO - pull AdobeCC pkg out of dmg and install in the pkg section
-INSTALL_DMGS=( "${CCLEANER_DMG}" "${CHROME_DMG}" "${SONOS_DMG}" "${ADOBECC_DMG}" )
+INSTALL_DMGS=( "${CCLEANER_DMG}" "${ALFRED_DMG}" "${SLACK_DMG}" "${CHROME_DMG}" "${SONOS_DMG}" "${ADOBECC_DMG}" )
 
 # These are symlinked to real pkg files - unclear whether it is desirable or 
 # sane to install large applications (ie Office365) via pkg from the server 
@@ -57,9 +55,10 @@ INSTALL_PKGS=( "${OFFICE365_PKG}" "${KEYSHOT_PKG}" "${KEYSHOT_NR_PKG}" "${ZOOM_P
 # since their contents and unzip behavior may not be known at the time of run
 SKETCH_ZIP="${MAC_APP_DIR}/Sketch/Sketch.zip"
 PREPROS_ZIP="${MAC_APP_DIR}/Prepros.zip"
+SLACK_TOKEN="${MAC_APP_DIR}/Slack/weareenvoy-signin.slacktoken"
 
 # Group the zip files
-INSTALL_ZIPS=( "${SKETCH_ZIP}" "${PREPROS_ZIP}" )
+INSTALL_ZIPS=( "${SKETCH_ZIP}" "${PREPROS_ZIP}" "${SLACK_TOKEN}" )
 
 # Utility functions
 function sleepdots () {
@@ -211,7 +210,7 @@ do
 done
 
 echo
-echo "Last we'll copy a few application zip files..."
+echo "Last we'll copy a few files..."
 echo
 
 # loop through the active pkg installers
