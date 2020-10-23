@@ -3,7 +3,7 @@
 # it bootstrapped quickly
 
 # TODO - intelligent switching of mount script to run based on macOS version
-MACOS_VERS=`sw_vers -productVersion`
+MACOS_VERS=$(sw_vers -productVersion)
 case "${MACOS_VERS}" in
 	10.13* ) MOUNT_SCRIPT_MACOS_REL="macos-high-sierra" ;;
 	10.14* ) MOUNT_SCRIPT_MACOS_REL="macos-mojave" ;;
@@ -16,7 +16,7 @@ MOUNT_SCRIPT_SRC="https://raw.githubusercontent.com/weareenvoy/envoy-utilities/$
 echo "Using mount script:"
 echo ${MOUNT_SCRIPT_SRC}
 
-LOCAL_SCRIPT_NAME=`mktemp -t mountenvoy` || exit 1
+LOCAL_SCRIPT_NAME=$(mktemp -t mountenvoy) || exit 1
 
 # Some config vars
 MAC_APP_DIR="/Volumes/IT/Software/Mac"
@@ -89,8 +89,8 @@ function installdmg () {
 	fi
 
 	# the DMGPATH is at least a file
-	DMG_FILENAME=`basename ${DMGPATH}`
-	DMG_APPNAME=`basename ${DMGPATH} | tr '.' ' ' | awk '{print $1}'`
+	DMG_FILENAME=$(basename ${DMGPATH})
+	DMG_APPNAME=$(basename ${DMGPATH} | tr '.' ' ' | awk '{print $1}')
 	read -n 1 -p "Mount ${DMG_FILENAME}? [y/N] " INST
 	echo
 	if [ "${INST}" == "y" ]
@@ -99,18 +99,18 @@ function installdmg () {
 		open $DMGPATH
 		#sleep 1
 		# copy the .app (if found) to /Applications
-		#MOUNTPT=`df -l | egrep -i "${DMG_APPNAME}" | awk '{print $NF}'`
+		#MOUNTPT=$(df -l | egrep -i "${DMG_APPNAME}" | awk '{print $NF}')
 		#find ${MOUNTPT} -maxdepth 1 -type d -name '*.app' -exec cp -va {} /Applications \;
 		read -n 1 -p "Press a key after installation of ${DMG_FILENAME} is complete..." OK
 		echo
 		# All done here, unmount the dmg
 		# get the mount point we created by opening the dmg
 		#find /Volumes -maxdepth 1 -type d -iname "*${DMG_APPNAME}*" -exec umount -v {} \;
-		DEV_ID=`df -l | egrep -i "${DMG_APPNAME}" | awk '{print $1}'`
+		DEV_ID=$(df -l | egrep -i "${DMG_APPNAME}" | awk '{print $1}')
 		if [ -z "${DEV_ID}" ]
 		then
-			GUESS_DEV_ID=`df -l | tail -n1 | awk '{print $1}'`
-			GUESS_MNT_NAME=`df -l | tail -n1 | egrep -o '/Volumes.*$'`
+			GUESS_DEV_ID=$(df -l | tail -n1 | awk '{print $1}')
+			GUESS_MNT_NAME=$(df -l | tail -n1 | egrep -o '/Volumes.*$')
 			echo "Didn't find a mounted dmg for ${DMG_APPNAME}..."
 			read -n 1 -p "Does '${GUESS_MNT_NAME}' look right? [y/N] " OK
 			echo
@@ -157,6 +157,15 @@ echo "Mounting IT share..."
 curl -s $MOUNT_SCRIPT_SRC > $LOCAL_SCRIPT_NAME
 chmod +x $LOCAL_SCRIPT_NAME
 $LOCAL_SCRIPT_NAME IT
+MOUNT_RET=$?
+
+# check for successful mount
+echo "Checking for correct mount of IT share..."
+if [ "${MOUNT_RET}" -ne "0" ] || [ ! -d "${MAC_APP_DIR}" ]
+then
+	echo "Couldn't find base software dir: ${MAC_APP_DIR} - exiting..."
+	exit 1
+fi
 
 echo
 # Set up the machine's hostname
@@ -174,7 +183,7 @@ echo
 # loop through the active dmg installers
 for admg in "${INSTALL_DMGS[@]}"
 do
-	installdmg ${admg}
+	installdmg "${admg}"
 done
 
 echo
@@ -184,8 +193,8 @@ echo
 # loop through the active pkg installers
 for apkg in "${INSTALL_PKGS[@]}"
 do
-	PKG_FILENAME=`basename ${apkg}`
-	PKG_APPNAME=`basename ${apkg} | tr '.' ' ' | awk '{print $1}'`
+	PKG_FILENAME=$(basename "${apkg}")
+	PKG_APPNAME=$(basename "${apkg}" | tr '.' ' ' | awk '{print $1}')
 	read -n 1 -p "Install ${PKG_APPNAME}? [y/N] " PKGINST
 	echo
 	if [ "${PKGINST}" != "y" ]
@@ -203,7 +212,7 @@ do
 	#sudo installer -pkg ${apkg} -target / -verboseR
 	# we'll do the pkg installs interactively since that's how we're already 
 	# doing the dmg's as well
-	open ${apkg}
+	open "${apkg}"
 	#sleep 1
 	read -n 1 -p "Press a key when done installing ${PKG_FILENAME}..." OK
 	echo
@@ -217,8 +226,8 @@ echo
 # loop through zip files
 for azip in "${INSTALL_ZIPS[@]}"
 do
-	ZIP_FILENAME=`basename ${azip}`
-	#ZIP_APPNAME=`basename ${azip} | tr '.' ' ' | awk '{print $1}'`
+	ZIP_FILENAME=$(basename "${azip}")
+	#ZIP_APPNAME=$(basename "${azip}" | tr '.' ' ' | awk '{print $1}')
 	read -n 1 -p "Copy ${ZIP_FILENAME} to Downloads? [y/N] " ZIPCOPY
 	echo
 	if [ "${ZIPCOPY}" != "y" ]
