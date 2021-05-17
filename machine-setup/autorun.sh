@@ -176,47 +176,54 @@ echo
 $CYLANCE_SCRIPT_DIR/$CYLANCE_REMOVE_OTHER_AV
 $CYLANCE_SCRIPT_DIR/$CYLANCE_INSTALL_SCRIPT
 
-echo
-echo "We'll install some applications via dmg now..."
-echo
-
-# loop through the active dmg installers
-for admg in "${INSTALL_DMGS[@]}"
-do
-	installdmg "${admg}"
-done
-
-echo
-echo "And we'll install a couple applications via pkg..."
-echo
-
-# loop through the active pkg installers
-for apkg in "${INSTALL_PKGS[@]}"
-do
-	PKG_FILENAME=$(basename "${apkg}")
-	PKG_APPNAME=$(basename "${apkg}" | tr '.' ' ' | awk '{print $1}')
-	read -n 1 -p "Install ${PKG_APPNAME}? [y/N] " PKGINST
+# see if the invoker wants to install *any* apps
+read -n 1 -p "Would you like to install any applications? [Y/n] " APPINST
+if [[ "${APPINST}" != "y" ]]
+then
+	echo "Skipping app installs"
+else
 	echo
-	if [ "${PKGINST}" != "y" ]
-	then
-		read -n 1 -p "Copy ${PKG_FILENAME} to Downloads? [y/N] " PKGCOPY
+	echo "We'll install some applications via dmg now..."
+	echo
+
+	# loop through the active dmg installers
+	for admg in "${INSTALL_DMGS[@]}"
+	do
+		installdmg "${admg}"
+	done
+
+	echo
+	echo "And we'll install a couple applications via pkg..."
+	echo
+
+	# loop through the active pkg installers
+	for apkg in "${INSTALL_PKGS[@]}"
+	do
+		PKG_FILENAME=$(basename "${apkg}")
+		PKG_APPNAME=$(basename "${apkg}" | tr '.' ' ' | awk '{print $1}')
+		read -n 1 -p "Install ${PKG_APPNAME}? [y/N] " PKGINST
 		echo
-		if [ "${PKGCOPY}" == "y" ]
+		if [ "${PKGINST}" != "y" ]
 		then
-			# just copy the pkg - some won't install over the network
-			cp -v "${apkg}" ~/Downloads
+			read -n 1 -p "Copy ${PKG_FILENAME} to Downloads? [y/N] " PKGCOPY
+			echo
+			if [ "${PKGCOPY}" == "y" ]
+			then
+				# just copy the pkg - some won't install over the network
+				cp -v "${apkg}" ~/Downloads
+			fi
+			continue
 		fi
-		continue
-	fi
-	echo "Installing ${PKG_FILENAME}..."
-	#sudo installer -pkg ${apkg} -target / -verboseR
-	# we'll do the pkg installs interactively since that's how we're already 
-	# doing the dmg's as well
-	open "${apkg}"
-	#sleep 1
-	read -n 1 -p "Press a key when done installing ${PKG_FILENAME}..." OK
-	echo
-done
+		echo "Installing ${PKG_FILENAME}..."
+		#sudo installer -pkg ${apkg} -target / -verboseR
+		# we'll do the pkg installs interactively since that's how we're already 
+		# doing the dmg's as well
+		open "${apkg}"
+		#sleep 1
+		read -n 1 -p "Press a key when done installing ${PKG_FILENAME}..." OK
+		echo
+	done
+fi
 
 echo
 echo "Last we'll copy a few files..."
