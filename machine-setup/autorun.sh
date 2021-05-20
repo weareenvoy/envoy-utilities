@@ -180,6 +180,7 @@ $CYLANCE_SCRIPT_DIR/$CYLANCE_INSTALL_SCRIPT
 read -n 1 -p "Would you like to install any applications? [Y/n] " APPINST
 if [[ "${APPINST}" != "y" ]]
 then
+	echo
 	echo "Skipping app installs"
 else
 	echo
