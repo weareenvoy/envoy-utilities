@@ -25,6 +25,7 @@ HOSTNAME_SCRIPT="${MAC_APP_DIR}/setup/inithost.sh"
 CYLANCE_SCRIPT_DIR="${MAC_APP_DIR}/Cylance"
 CYLANCE_REMOVE_OTHER_AV="remove_av.sh"
 CYLANCE_INSTALL_SCRIPT="install.sh"
+CYLANCE_PREP_SCRIPT="prep.sh"
 
 # These are symlinked to the current dmg
 CCLEANER_DMG="${MAC_APP_DIR}/CCleaner.dmg"
@@ -174,7 +175,8 @@ $HOSTNAME_SCRIPT -v
 echo 
 # Run scripts in the IT share
 $CYLANCE_SCRIPT_DIR/$CYLANCE_REMOVE_OTHER_AV
-$CYLANCE_SCRIPT_DIR/$CYLANCE_INSTALL_SCRIPT
+#$CYLANCE_SCRIPT_DIR/$CYLANCE_INSTALL_SCRIPT
+$CYLANCE_SCRIPT_DIR/$CYLANCE_PREP_SCRIPT
 
 # see if the invoker wants to install *any* apps
 read -n 1 -p "Would you like to install any applications? [Y/n] " APPINST
