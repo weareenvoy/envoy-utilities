@@ -12,10 +12,13 @@ then
 	MOUNTED=`df | egrep -c "$MOUNTPT"`
 	if [[ "$MOUNTED" != 0 ]]
 	then
-		echo "There seems to be a filesystem mounted on $MOUNTPT:"
+		echo "There seems to be a filesystem already mounted on $MOUNTPT:"
 		df | egrep -i "$MOUNTPT"
-		echo "Exiting..."
-		exit 1
+		echo "Exiting successfully..."
+		exit 0
+	else
+		echo "Found directory at ${MOUNTPT} but no filesystem is mounted there, exiting..."
+		echo 1
 	fi
 	chmod 700 $MOUNTPT
 else
