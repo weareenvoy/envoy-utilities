@@ -14,13 +14,13 @@ fi
 # pull pkg file - make sure it's a .pkg first
 IS_PKG=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | egrep -ci '\.pkg'`
 FILENAME=`curl -sI "${NR_DOWNLOAD_URL}" | egrep -i '^location' | awk -F "/" '{print $NF}' | tr -d "[:space:]"`
-EXT=`echo -n $FILENAME | awk -F "." '{print $NF}'`
+EXT=`echo -n ${FILENAME} | awk -F "." '{print $NF}'`
 
 # operate in Downloads
 cd ~/Downloads
 
 # do stuff with it
-case "$EXT" in
+case "${EXT}" in
 	pkg )
 		# preemptively prompt for sudo so we can get that out of the way
 		echo "Please provide the login password to sudo..."
@@ -29,15 +29,15 @@ case "$EXT" in
 
 		# get that thing and save it
 		echo "Pulling file ${FILENAME}..."
-		curl -sL "${NR_DOWNLOAD_URL}" > $FILENAME
+		curl -sL "${NR_DOWNLOAD_URL}" > ${FILENAME}
 
 		# install it
-		echo "Installing from $FILENAME"
-		sudo installer -pkg $FILENAME -target /
+		echo "Installing from ${FILENAME}"
+		sudo installer -pkg ${FILENAME} -target /
 		;;
 	* )
 		# didn't get something we can use
-		echo "Got file with extension $EXT in request, exiting..."
+		echo "Got file with extension ${EXT} in request, exiting..."
 		exit 1
 		;;
 esac
